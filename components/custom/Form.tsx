@@ -13,6 +13,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import axios from "axios";
 
 const formSchema = z
   .object({
@@ -40,8 +41,10 @@ const InputForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const response = await axios.post("/api/recommend", values);
+    console.log(response.data);
+    form.reset();
   }
 
   return (
