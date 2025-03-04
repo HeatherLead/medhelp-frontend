@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: ["onemg.gumlet.io"], 
+  },
 };
 
 export default nextConfig;

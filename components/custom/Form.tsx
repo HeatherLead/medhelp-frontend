@@ -14,6 +14,10 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import axios from "axios";
+import { MedicineProps } from "@/app/page";
+interface FormProps {
+  handleSumit: (medicine: MedicineProps[]) => void;
+}
 
 const formSchema = z
   .object({
@@ -31,7 +35,7 @@ const formSchema = z
       path: ["medicine_name"],
     }
   );
-const InputForm = () => {
+const InputForm = ({ handleSumit }: FormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,7 +47,7 @@ const InputForm = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const response = await axios.post("/api/recommend", values);
-    console.log(response.data);
+    handleSumit(response.data);
     form.reset();
   }
 
