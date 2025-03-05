@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -21,6 +22,7 @@ import {
   DialogFooter,
   DialogDescription,
 } from "../ui/dialog";
+import axios from "axios";
 
 interface MedicineProps {
   _id: string;
@@ -35,7 +37,22 @@ interface MedicineProps {
   "Poor Review %": number;
 }
 const OutputCarousel = ({ medicines }: { medicines: MedicineProps[] }) => {
-  console.log("Received Medicines Data:", medicines);
+  const [reviewMessage, setReviewMessage] = useState<string>("");
+
+  const fetchReviewMessage = async (medicine: MedicineProps) => {
+    try {
+      const response = await axios.post("/api/review", {
+        excellent_review: Number(medicine["Excellent Review %"]) || 0,
+        average_review: Number(medicine["Average Review %"]) || 0,
+        poor_review: Number(medicine["Poor Review %"]) || 0,
+      });
+
+      setReviewMessage(response.data.message);
+    } catch (error) {
+      console.error("Error fetching review message:", error);
+      setReviewMessage("Error fetching review.");
+    }
+  };
 
   return (
     <div className="w-[80%]">
@@ -142,7 +159,6 @@ const OutputCarousel = ({ medicines }: { medicines: MedicineProps[] }) => {
                           </DialogFooter>
                         </DialogContent>
                       </Dialog>
-                      <Button className=" w-fit">Buy Now</Button>
                     </div>
                   </div>
                 </Card>

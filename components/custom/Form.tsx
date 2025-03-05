@@ -52,7 +52,7 @@ const InputForm = ({ handleSumit }: FormProps) => {
   }
 
   return (
-    <div className="w-96 h-auto border-2 border-black rounded-lg p-5">
+    <div className="w-[90%] md:w-[60%] lg:w-[50%] h-auto border-2 border-black rounded-lg p-5 bg-white">
       <h1 className="text-center py-2 text-xl">Enter Medicine Details</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
